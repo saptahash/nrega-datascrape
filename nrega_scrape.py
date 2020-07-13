@@ -37,7 +37,7 @@ def scrape_report(state, labour_month, year):
     options.set_preference("browser.download.folderList",2)
     options.set_preference("browser.download.manager.showWhenStarting", False)
     options.set_preference("browser.download.dir","/data")
-    options.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream,application/vnd.ms-excel")
+    options.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/ms-excel; charset=utf-8")
     driver = selenium.webdriver.Firefox(firefox_options= options, executable_path = 'C:/Users/sapta/Downloads/software/geckodriver-v0.26.0-win64/geckodriver.exe')
 
 #    driver = selenium.webdriver.Firefox(firefox_profile = profile, executable_path = 'C:/Users/sapta/Downloads/software/geckodriver-v0.26.0-win64/geckodriver.exe')
