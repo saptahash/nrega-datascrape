@@ -13,6 +13,8 @@ import shutil
 import glob
 import pathlib
 
+start_time = time.time()
+
 pwd = "data"
 nrega_url = "https://nregarep2.nic.in/netnrega/dynamic2/dynamicreport_new4.aspx"
 # ddir_unix = "C:/Users/sapta/Downloads/*"
@@ -50,9 +52,13 @@ def scrape_report(state, labour_month, year):
 #    #profile.update_preferences()
     options = Options()
     options.add_argument('-headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-software-rasterizer')
+    options.add_argument("--window-size=1340x768")
     options.set_preference("browser.download.folderList", 2)
     options.set_preference("browser.download.manager.showWhenStarting", False)
     options.set_preference("browser.download.dir", os.path.abspath(pwd))
+
 #    directory = "C:/Users/sapta/OneDrive/Desktop/projects/dissertation/codes/nrega_datascrape/nrega-datascrape/data"
 #    print(directory)
     options.set_preference(
@@ -64,7 +70,7 @@ def scrape_report(state, labour_month, year):
 #    set_download_dir(driver, directory)
     try:
         driver.get(nrega_url)
-        time.sleep(10)
+        # time.sleep(10)
 #    except TimeoutException:
 #        time.sleep(10)
 #        driver.get(nrega_url)
@@ -151,13 +157,13 @@ states = [1, 2, 3, 4, 5, 33, 7, 8, 10, 11, 12, 13, 14, 34, 15, 16,
 
 
 months = ['January', 'February']
-states = [1, 2, 3]
+# states = [1, 2, 3]
 years = ["2015"]
 
 pathlib.Path(pwd).mkdir(parents=True, exist_ok=True)
 for current_year in years:
     for current_month in months:
-        with concurrent.futures.ThreadPoolExecutor(11) as executor:
+        with concurrent.futures.ThreadPoolExecutor(21) as executor:
             interlist = executor.map(scrape_report, states, repeat(
                 current_month), repeat(current_year))
         pwd_unix = os.path.join("data", str(current_year), str(current_month))
@@ -176,3 +182,4 @@ for current_year in years:
 #subprocess.call(["mv", ddir, pwd], shell  = True)
 
 # mv C:/Users/sapta/Downloads/report* ./data
+print('It took', time.time()-start_time, 'seconds.')
